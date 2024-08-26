@@ -15,14 +15,17 @@ const verifyToken = asyncHandler(async (req, res, next) => {
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
         console.log("Tamoghna");
         console.log("decodedToken===>", decodedToken);
-        
-        const user = await User.findById(decodedToken?._id).select("-password -refreshToken")
-        console.log("User===>", user);
-        
-        if (!user) {
-            return new ApiError(401, "Invalid AccessToken")
+
+        const { _id, email, fullName, iat, exp } = decodedToken;
+
+        const userObject = {
+            id: _id,
+            email: email,
+            fullName: fullName,
+            issuedAt: iat,
+            expiry: exp
         }
-        req.user = user;
+        req.user = userObject;
         next()
     } catch (error) {
         throw new ApiError(401, error?.message||"Invalid Access Token")

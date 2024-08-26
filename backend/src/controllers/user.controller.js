@@ -148,7 +148,7 @@ const updateUser = asyncHandler(async (req, res) => {
     console.log(typeof skillsArray);
     
     const user = await User.findByIdAndUpdate(
-        req.user?._id,
+        req.user?.id,
         {
             $set: {
                 fullName,
