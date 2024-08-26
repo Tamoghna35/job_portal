@@ -140,7 +140,13 @@ const updateUser = asyncHandler(async (req, res) => {
     if (!fullName || !email || !phoneNumber || !bio || !skills) {
         throw new ApiError(400, "Required Fields are missing")
     }
-    const skillsArray = skills.split(",")
+    console.log(typeof skills);
+    console.log(skills);
+    
+    // Convert the skills object to an array
+    const skillsArray = Object.values(skills)
+    console.log(typeof skillsArray);
+    
     const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
