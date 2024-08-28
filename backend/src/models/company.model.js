@@ -18,7 +18,7 @@ const companySchema = new Schema({
     logo: {
         type: String // URL to company logo
     },
-    JobUserId: {
+    userId: {
         type: Schema.Types.ObjectId,
         ref: 'JobUser',
         required: true

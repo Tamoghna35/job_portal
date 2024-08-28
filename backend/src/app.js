@@ -16,4 +16,8 @@ app.use(cookieParser())
 import JobUserRouter from "./routes/user.route.js"
 app.use("/api/v1/JobUser", JobUserRouter)
 
+import CompanyRouter from "./routes/company.router.js"
+app.use("/api/v1/company", CompanyRouter)
+
+
 export { app }
