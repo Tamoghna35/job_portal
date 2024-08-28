@@ -13,19 +13,20 @@ const verifyToken = asyncHandler(async (req, res, next) => {
             throw new ApiError(401,"Unauthorized Request")
         }
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-        console.log("Tamoghna");
         console.log("decodedToken===>", decodedToken);
 
         const { _id, email, fullName, iat, exp } = decodedToken;
 
         const userObject = {
-            id: _id,
+            _id: _id,
             email: email,
             fullName: fullName,
             issuedAt: iat,
             expiry: exp
         }
         req.user = userObject;
+        console.log("UserObject==>", req.user);
+        
         next()
     } catch (error) {
         throw new ApiError(401, error?.message||"Invalid Access Token")

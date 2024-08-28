@@ -40,6 +40,9 @@ const userSchema = new Schema({
             default:""
         }
     },
+    accessToken: {
+        type: String
+    },
     refreshToken: {
         type: String
     }
