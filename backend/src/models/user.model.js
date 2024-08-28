@@ -40,6 +40,9 @@ const userSchema = new Schema({
             default:""
         }
     },
+    accessToken: {
+        type: String
+    },
     refreshToken: {
         type: String
     }
@@ -81,13 +84,15 @@ userSchema.methods.generateAccessToken = function () {
 // generating refreshToken
 
 userSchema.methods.generateRefreshToken = function () {
+    console.log("Refresh Token");
+    
    return jwt.sign(
         {
             _id: this._id,
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
-            expiresIn: process.env.REFRESH_TOKRN_EXPIRY
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
         }
     )
 }

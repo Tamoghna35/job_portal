@@ -111,24 +111,25 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 const logoutUser = asyncHandler(async (req, res) => {
-    User.findByIdAndUpdate(
-        req.user._id
-        , {
-            $set: {
-                refreshToken: undefined
-            }
-        }, {
-        new: true
-    })
+    // Update the user's refresh token to null during logout
+    await User.findByIdAndUpdate(
+        req.user._id,  // Use the ID directly
+        { $set: { refreshToken: null, accessToken: null } },
+        { new: true }
+    );
+
+    
+
     const options = {
         httpOnly: true,
         secure: true,
-    }
+    };
+
     return res
         .status(200)
         .clearCookie("accessToken", options)
         .clearCookie("refreshToken", options)
-        .json(new ApiResponse(200, {}, "User Logged Out"))
+        .json(new ApiResponse(200, {}, "User Logged Out"));
 })
 
 
@@ -136,12 +137,29 @@ const updateUser = asyncHandler(async (req, res) => {
     if (!req.user) {
         throw new ApiError(401, "User is not logged In")
     }
+     // Fetch the user from the database to check tokens
+     const user = await User.findById(req.user._id).select("refreshToken accessToken");
+     if (!user) {
+         throw new ApiError(401, "User not found");
+     }
+ 
+     // Check if the tokens are null
+     if (user.refreshToken === null || user.accessToken === null) {
+         throw new ApiError(401, "User is logged out");
+     }
+
     const { fullName, email, phoneNumber, bio, skills } = req.body
     if (!fullName || !email || !phoneNumber || !bio || !skills) {
         throw new ApiError(400, "Required Fields are missing")
     }
-    const skillsArray = skills.split(",")
-    const user = await User.findByIdAndUpdate(
+    console.log(typeof skills);
+    console.log(skills);
+    
+    // Convert the skills object to an array
+    const skillsArray = Object.values(skills)
+    console.log(typeof skillsArray);
+    
+    const UpdateUser = await User.findByIdAndUpdate(
         req.user?._id,
         {
             $set: {
@@ -155,11 +173,11 @@ const updateUser = asyncHandler(async (req, res) => {
         {new: true}
     ).select("-password")
     // Check if user update was successful
-    if (!user) {
+    if (!UpdateUser) {
         throw new ApiError(500, "Something went wrong while updating user data");
     }
     return res.status(200)
-    .json(new ApiResponse(200, user, "User data update Successfully"))
+    .json(new ApiResponse(200, UpdateUser, "User data update Successfully"))
 })
 
 export {

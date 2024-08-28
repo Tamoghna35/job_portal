@@ -6,16 +6,27 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 
 const verifyToken = asyncHandler(async (req, res, next) => {
     try {
+       
+        
         const token = req.cookies?.accessToken||req.header("Authorization")?.replace("Bearer ", "")
         if (!token) {
             throw new ApiError(401,"Unauthorized Request")
         }
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-        const user = await User.findById(decodedToken?._id).select("-password -refreshToken")
-        if (!user) {
-            return new ApiError(401, "Invalid AccessToken")
+        console.log("decodedToken===>", decodedToken);
+
+        const { _id, email, fullName, iat, exp } = decodedToken;
+
+        const userObject = {
+            _id: _id,
+            email: email,
+            fullName: fullName,
+            issuedAt: iat,
+            expiry: exp
         }
-        req.user = user;
+        req.user = userObject;
+        console.log("UserObject==>", req.user);
+        
         next()
     } catch (error) {
         throw new ApiError(401, error?.message||"Invalid Access Token")
