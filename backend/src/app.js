@@ -19,5 +19,13 @@ app.use("/api/v1/JobUser", JobUserRouter)
 import CompanyRouter from "./routes/company.router.js"
 app.use("/api/v1/company", CompanyRouter)
 
+import JobRouter from "./routes/job.router.js"
+app.use("/api/v1/job", JobRouter)
+
+import ApplicationRouter from "./routes/application.router.js"
+app.use("/api/v1/application", ApplicationRouter)
+
+
+
 
 export { app }
