@@ -50,3 +50,5 @@ const jobSchema = new Schema({
     ]
 }, { timestamps: true });
 export const Job = mongoose.model("Job", jobSchema);
+
+
