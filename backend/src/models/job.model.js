@@ -52,11 +52,3 @@ const jobSchema = new Schema({
 export const Job = mongoose.model("Job", jobSchema);
 
 
-PORT= 6000
-CORS_ORIGIN = *
-MONGODB_URI = mongodb+srv://tamoghna9876:tamoghna9876@cluster0.neoe8t8.mongodb.net/
-ACCESS_TOKEN_SECRET= qwertyuioppppppppppppppppplkjhgfds
-ACCESS_TOKEN_EXPIRY = 1d
-
-REFRESH_TOKEN_SECRET= qwertyuioppiuttppppppppppppppplkjhgfds
-REFRESH_TOKEN_EXPIRY= 10d
