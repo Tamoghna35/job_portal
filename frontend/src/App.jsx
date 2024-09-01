@@ -1,10 +1,12 @@
 
 import NavBar from "./components/shared/Navbar";
+import Navbar1 from "./components/shared/Navbar1";
 function App() {
  
   return (
     <>
-    <NavBar/>
+      {/* <NavBar/> */}
+    <Navbar1/>
     </>
   )
 }
