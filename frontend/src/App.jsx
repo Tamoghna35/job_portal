@@ -1,10 +1,10 @@
 
-
+import NavBar from "./components/shared/Navbar";
 function App() {
  
   return (
     <>
-      <h1 className="text-center">This is the UI</h1>
+    <NavBar/>
     </>
   )
 }
