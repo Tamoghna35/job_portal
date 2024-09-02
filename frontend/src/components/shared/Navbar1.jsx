@@ -25,7 +25,7 @@ const Navbar1 = () => {
             <Link to="/signup">
               <Button
                 variant="outline"
-                className="bg-[#6A38C2] hover:bg-[#572e9e]"
+                className="bg-[#c39bd3] hover:bg-[#c070e0]"
               >
                 Sign Up
               </Button>
