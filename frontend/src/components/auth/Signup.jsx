@@ -47,16 +47,29 @@ const Signup = () => {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
-       console.log("Tamoghna");
+      console.log("Tamoghna");
       console.log("Response ===> ", res);
-      
+
       if (res.data.success) {
         navigate("/login");
-        toast.success(res.data.message);
+        toast.success(res.data.data);
       }
     } catch (error) {
-      console.error(error);
-      // toast.error(error.res.data.message);
+      // Check if error.response exists
+      if (error.response) {
+        const htmlContent = error.response.data;
+
+        // Regular expression to extract the specific error message
+        const match = htmlContent.match(/Error:\s*([\s\S]*?)<br>/);
+        const errorMessage = match
+          ? match[1].trim()
+          : "An unexpected error occurred";
+
+        toast.error(errorMessage);
+      } else {
+        // Handle cases where error.response is undefined (e.g., network errors)
+        toast.error("Network error or server is not responding");
+      }
     }
   };
 
@@ -115,8 +128,8 @@ const Signup = () => {
                 <Input
                   type="radio"
                   name="role"
-                  value="student"
-                  checked={input.role === "student"}
+                  value="Student"
+                  checked={input.role === "Student"}
                   onChange={handleInputChange}
                   className="cursor-pointer"
                 />
@@ -126,8 +139,8 @@ const Signup = () => {
                 <Input
                   type="radio"
                   name="role"
-                  value="recruiter"
-                  checked={input.role === "recruiter"}
+                  value="Recruiter"
+                  checked={input.role === "Recruiter"}
                   onChange={handleInputChange}
                   className="cursor-pointer"
                 />

@@ -30,7 +30,16 @@ const generateAccessandRefreshToken = async (userId) => {
 //  userRegistration
 
 const registerUser = asyncHandler(async (req, res) => {
+
+    console.log("Request body: ", req.body);
+    console.log("Uploaded file: ", req.file);
     const { fullName, email, phoneNumber, password, role } = req.body
+    console.log("fullNmae ===>", fullName);
+    console.log("email ===>", email);
+    console.log("phoneNumber ===>", phoneNumber);
+    console.log("password ===>", password);
+    console.log("role ===>", role);
+    
     // This is for all requid field validation
     if ([fullName, email, phoneNumber, password, role].some((field) => field?.trim === "")) {
         throw new ApiError(500, "All the fields are required")
